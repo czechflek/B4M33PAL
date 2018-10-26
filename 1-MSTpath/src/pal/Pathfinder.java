@@ -5,32 +5,34 @@ import java.util.*;
 public class Pathfinder {
     private int[][] adjancencyMatrix;
 
-    public List<List<Node>> neighbors = new ArrayList<>();
 
     private Integer numVertices;
+    private Integer numEdges = 0;
     private Queue<Node> queue = new LinkedList<>();
     private Integer destinationV;
     private Integer startV;
     private int[] distances;
-    private PairingHeap priority = new PairingHeap();
+
+
+    private List<Edge> edges = new ArrayList<>(1000);
+    int[] parents;
 
 
     public Pathfinder(Integer numVertices) {
         this.numVertices = numVertices;
         adjancencyMatrix = new int[numVertices][numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            neighbors.add(new ArrayList<>());
-        }
+
+
     }
 
     public void addEdge(Integer node1, Integer node2, Integer weight) {
         adjancencyMatrix[node1][node2] = weight;
         adjancencyMatrix[node2][node1] = weight;
-        neighbors.get(node1).add(new Node(node2, weight));
-        neighbors.get(node2).add(new Node(node1, weight));
+        edges.add(new Edge(weight, node1, node2));
     }
 
     public Integer findEdgeDistance(Integer startV, Integer destinationV) {
+
         this.destinationV = destinationV;
         this.startV = startV;
         boolean[] closed = new boolean[numVertices];
@@ -52,6 +54,7 @@ public class Pathfinder {
             processNeighbors(currentNode, closed, distances);
 
         }
+
         return distances[destinationV];
     }
 
@@ -62,49 +65,73 @@ public class Pathfinder {
             res.add(path);
             return res;
         }
-        for (Node n : neighbors.get(currentNode)) {
-            if (distances[n.getId()] == depth) {
-                List<Integer> newPath = new LinkedList<>();
-                newPath.addAll(path);
-                res.addAll(getPath(newPath, n.getId(), depth - 1));
+        for (int i = 0; i < numVertices; i++) {
+            if (adjancencyMatrix[currentNode][i] > 0) {
+                if (distances[i] == depth) {
+                    List<Integer> newPath = new LinkedList<>();
+                    newPath.addAll(path);
+                    res.addAll(getPath(newPath, i, depth - 1));
+                }
             }
         }
         return res;
     }
 
-    public Integer runModifiedPrimm(List<Integer> tree, Integer limitLength) {
-        Integer totalDistance = getBaseDistance(tree);
-        for (Integer n : tree) {
-            priority.addAll(neighbors.get(n));
+
+    public int runKruskal(List<Integer> tree, int limitLength) {
+        int totalLength = 0;
+        parents = new int[numVertices];
+        for (int i = 0; i < parents.length; i++) {
+            parents[i] = i;
         }
 
-        boolean closed[] = new boolean[numVertices];
-        for (Integer n : tree) {
-            closed[n] = true;
+
+        for (int i = 0; i < tree.size() - 1; i++) {
+            int src = tree.get(i);
+            int dest = tree.get(i + 1);
+            parents[src] = startV;
+            parents[dest] = startV;
+            totalLength += adjancencyMatrix[src][dest];
+
+
         }
 
-        for (int i = tree.size(); i < numVertices; i++) {
-            Node n;
-            do {
-                n = priority.extractMin();
-            } while (closed[n.getId()]);
-            priority.addAll(neighbors.get(n.getId()));
-            closed[n.getId()] = true;
-            totalDistance += n.getDistance();
-            if (totalDistance >= limitLength) {
-                return limitLength;
+        int startParent;
+        int endParent;
+        for (Edge e : edges) {
+            startParent = findSet(e.getStart());
+            endParent = findSet(e.getEnd());
+            if (startParent != endParent) {
+                unionSet(startParent, endParent);
+                totalLength += e.weight;
+                if (totalLength >= limitLength) {
+                    return limitLength;
+                }
             }
         }
-        return totalDistance;
+        return totalLength;
     }
 
-    public Integer getBaseDistance(List<Integer> tree) {
-        Integer total = 0;
-        for (int i = 0; i < tree.size() - 1; i++) {
-            total += adjancencyMatrix[tree.get(i)][tree.get(i + 1)];
+    private int findSet(int start) {
+        int i = start;
+        while (parents[i] != i) {
+            i = parents[i];
         }
-        return total;
+        int end = i;
+        i = start;
+        int j;
+        while (parents[i] != i) {
+            j = parents[i];
+            parents[i] = end;
+            i = j;
+        }
+        return i;
     }
+
+    private void unionSet(int i, int j) {
+        parents[i] = parents[j];
+    }
+
 
     private void processNeighbors(Node currentNode, boolean[] closed, int[] distances) {
         int newDistance;
@@ -123,5 +150,51 @@ public class Pathfinder {
 
     public Integer getMaxDistance() {
         return distances[destinationV];
+    }
+
+    public void sortEdges() {
+        edges.sort(new SortByWeight());
+    }
+
+    private void adjacencyToEdges() {
+        edges = new ArrayList<>(numEdges);
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = i + 1; j < numVertices; j++) {
+                if (adjancencyMatrix[i][j] > 0) {
+                    edges.add(new Edge(adjancencyMatrix[i][j], i, j));
+                }
+            }
+        }
+    }
+
+    private class Edge {
+        int weight;
+        int start;
+        int end;
+
+        public Edge(int weight, int start, int end) {
+            this.weight = weight;
+            this.start = start;
+            this.end = end;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+    }
+
+    public static class SortByWeight implements Comparator<Edge> {
+        @Override
+        public int compare(Edge o1, Edge o2) {
+            return Integer.compare(o1.weight, o2.weight);
+        }
     }
 }

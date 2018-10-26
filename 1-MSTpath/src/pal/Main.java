@@ -6,12 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        long startT = System.currentTimeMillis();
         int a, b, weight;
 
         //Read data
@@ -34,16 +32,17 @@ public class Main {
 
                 pathfinder.addEdge(a, b, weight);
             }
+            pathfinder.sortEdges();
+            System.gc();
 
             pathfinder.findEdgeDistance(startV, destinationV);
             List<List<Integer>> res = pathfinder.getPath(new LinkedList<>(), destinationV, pathfinder.getMaxDistance() - 1);
 
             Integer bestLength = Integer.MAX_VALUE;
             for (List<Integer> m : res) {
-                bestLength = pathfinder.runModifiedPrimm(m, bestLength);
+                bestLength = pathfinder.runKruskal(m, bestLength);
             }
             System.out.println(pathfinder.getMaxDistance() + " " + bestLength);
-            System.out.println(System.currentTimeMillis() - startT);
         } catch (IOException ex) {
             System.err.println("Whopsie");
         }
