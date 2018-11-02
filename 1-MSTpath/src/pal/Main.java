@@ -22,7 +22,6 @@ public class Main {
             int destinationV = Integer.parseInt(tokens[3]) - 1;
 
             Pathfinder pathfinder = new Pathfinder(numVertices);
-
             for (int i = 0; i < numEdges; i++) {
                 line = in.readLine();
                 tokens = line.split(" ");
@@ -32,8 +31,9 @@ public class Main {
 
                 pathfinder.addEdge(a, b, weight);
             }
-            pathfinder.sortEdges();
-            System.gc();
+            //long startT = System.currentTimeMillis();
+            //pathfinder.sortEdges();
+            //System.out.println(System.currentTimeMillis() - startT);
 
             pathfinder.findEdgeDistance(startV, destinationV);
             List<List<Integer>> res = pathfinder.getPath(new LinkedList<>(), destinationV, pathfinder.getMaxDistance() - 1);
@@ -46,6 +46,5 @@ public class Main {
         } catch (IOException ex) {
             System.err.println("Whopsie");
         }
-
     }
 }
