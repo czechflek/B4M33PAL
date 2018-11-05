@@ -53,7 +53,7 @@ public class Main {
                 pathfinder.addEdge(from, to);
             }
 
-            pathfinder.calculateBlueDistances();
+            pathfinder.findComponents();
             Pathfinder.Result result = pathfinder.daBaDeeDaBaDaa();
             System.out.println(result.totalNodes + " " + result.totalDistance);
         } catch (IOException ex) {

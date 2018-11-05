@@ -5,12 +5,31 @@ import java.util.*;
 class Pathfinder {
     private int numVertices;
     private int numBlueVs;
-    List<Integer> blueVs;
-    int[][] blueDistances;
+    private List<Integer> blueVs;
+    private int[][] blueDistances;
+    private int[] maxDistanceToBlue;
+    private int[] distances;
+    private int[] reversedDistances;
+    private boolean[] open;
+    private boolean[] reversedOpen;
     private List<PathPair> blueNeighbors[];
     private List<PathPair> blueIncommingNeighbors[];
     private List<Integer> neighbors[];
+    private List<Integer> reversedNeighbors[];
     private Set<Integer> blueSet = new HashSet<>();
+    //Queue<Integer> outsideNode = new LinkedList<>();
+
+    //TARJAN
+    private static final int UNVISITED = -1;
+    private Deque<Integer> tarjanStack = new LinkedList<>();
+    private boolean[] onStack;
+    private int[] visited;
+    private int[] low;
+    private int id = 0;
+    private int sccTotal;
+    //    private  Map<Integer, Integer> componentToBlue;
+    private int[] componentToBlue;
+    private List<List<Integer>> components;
 
     Pathfinder(int numVertices, List<Integer> blueVs) {
         this.numVertices = numVertices;
@@ -19,23 +38,19 @@ class Pathfinder {
         blueSet.addAll(blueVs);
 
         neighbors = new LinkedList[numVertices];
+        reversedNeighbors = new LinkedList[numVertices];
         for (int i = 0; i < neighbors.length; i++) {
             neighbors[i] = new LinkedList<>();
+            reversedNeighbors[i] = new LinkedList<>();
         }
 
         blueDistances = new int[numBlueVs][numBlueVs];
+
     }
 
     void addEdge(int from, int to) {
         neighbors[from].add(to);
-    }
-
-    void calculateBlueDistances() {
-        for (int i = 0; i < numBlueVs; i++) {
-            bfs(blueVs.get(i), i);
-        }
-        //System.out.println(total);
-        //printBlueDistances();
+        reversedNeighbors[to].add(from);
     }
 
     Result daBaDeeDaBaDaa() {
@@ -58,8 +73,6 @@ class Pathfinder {
                 }
             }
         }
-        Result tempRes;
-        Result result = new Result(0, 1);
         List<Integer> topoSort = topologicalSort(incoming);
 
         return getBluestPath(topoSort);
@@ -98,23 +111,23 @@ class Pathfinder {
                 if (nodeDistance[n.node] < (nodeDistance[current] + 1)) {
                     nodeDistance[n.node] = nodeDistance[current] + 1;
                     distance[n.node] = distance[current] + n.distance;
-                    if(nodeDistance[n.node] > bestNodeDistance){
+                    if (nodeDistance[n.node] > bestNodeDistance) {
                         bestNodeDistance = nodeDistance[n.node];
                         bestDistance = distance[n.node];
-                    } else if(nodeDistance[n.node] == bestNodeDistance){
-                        if(distance[n.node] < bestDistance){
+                    } else if (nodeDistance[n.node] == bestNodeDistance) {
+                        if (distance[n.node] < bestDistance) {
                             bestDistance = distance[n.node];
                         }
                     }
-                } else if (nodeDistance[n.node] == (nodeDistance[current] + 1)){
-                    if(distance[n.node] > (distance[current] + n.distance)){
+                } else if (nodeDistance[n.node] == (nodeDistance[current] + 1)) {
+                    if (distance[n.node] > (distance[current] + n.distance)) {
                         distance[n.node] = distance[current] + n.distance;
                     }
-                    if(nodeDistance[n.node] > bestNodeDistance){
+                    if (nodeDistance[n.node] > bestNodeDistance) {
                         bestNodeDistance = nodeDistance[n.node];
                         bestDistance = distance[n.node];
-                    } else if(nodeDistance[n.node] == bestNodeDistance){
-                        if(distance[n.node] < bestDistance){
+                    } else if (nodeDistance[n.node] == bestNodeDistance) {
+                        if (distance[n.node] < bestDistance) {
                             bestDistance = distance[n.node];
                         }
                     }
@@ -125,75 +138,168 @@ class Pathfinder {
         return new Result(bestNodeDistance + 1, bestDistance);
     }
 
-//    private Result getBluestPathOld(int current, int distance, int nodeLength) {
-//        Result result = new Result(nodeLength, distance);
-//        Result tempRes;
-//
-//        for (PathPair n : blueNeighbors[current]) {
-//            tempRes = getBluestPath(n.node, distance + n.distance, nodeLength + 1);
-//            result = chooseBetterResult(result, tempRes);
-//        }
-//
-//        return result;
-//    }
-
-    private Result chooseBetterResult(Result main, Result candidate) {
-        if (main.totalNodes < candidate.totalNodes) {
-            return candidate;
-        } else if (main.totalNodes == candidate.totalNodes) {
-            if (main.totalDistance > candidate.totalDistance) {
-                return candidate;
-            }
-        }
-        return main;
+    void findComponents() {
+        tarjan();
+        buildComponents();
+        getIntraComponentDistances();
+        calculateAllBlueDistances();
+        //printBlueDistances();
     }
 
-    //int total = 0;
+    private void tarjan() {
+        onStack = new boolean[numVertices];
+        visited = new int[numVertices];
+        low = new int[numVertices];
 
-    private void bfs(int start, int blueIndex) {
-        Queue<Integer> queue = new LinkedList<>();
-        int[] distances = new int[numVertices];
-        boolean[] open = new boolean[numVertices];
+        for (int i = 0; i < visited.length; i++) {
+            visited[i] = UNVISITED;
+        }
+
+        for (int i = 0; i < visited.length; i++) {
+            if (visited[i] == UNVISITED) {
+                dfs(i);
+            }
+        }
+    }
+
+    private void dfs(int node) {
+        tarjanStack.push(node);
+        onStack[node] = true;
+        visited[node] = id;
+        low[node] = id;
+        id++;
+
+        for (Integer next : neighbors[node]) {
+            if (visited[next] == UNVISITED) {
+                dfs(next);
+            }
+            if (onStack[next]) {
+                low[node] = min(low[node], low[next]);
+            }
+        }
+
+        if (visited[node] == low[node]) {
+            Integer n;
+            while (!tarjanStack.isEmpty()) {
+                n = tarjanStack.pop();
+                onStack[n] = false;
+                low[n] = visited[node];
+                if (n == node) {
+                    break;
+                }
+            }
+            sccTotal++;
+        }
+
+
+    }
+
+    private static int min(int first, int second) {
+        if (first > second)
+            return second;
+        else
+            return first;
+    }
+
+    private void buildComponents() {
+        components = new ArrayList<>(numBlueVs);
+        componentToBlue = new int[id];
+        int componentId;
+        for (int i = 0; i < numBlueVs; i++) {
+            componentId = low[blueVs.get(i)];
+            componentToBlue[componentId] = i;
+            components.add(new LinkedList<>());
+        }
+
+        for (int i = 0; i < low.length; i++) {
+            componentId = componentToBlue[low[i]];
+            components.get(componentId).add(i);
+        }
+    }
+
+    private void getIntraComponentDistances() {
+        distances = new int[numVertices];
+        reversedDistances = new int[numVertices];
+        open = new boolean[numVertices];
+        reversedOpen = new boolean[numVertices];
+        maxDistanceToBlue = new int[numBlueVs];
         for (int i = 0; i < distances.length; i++) {
             distances[i] = Integer.MAX_VALUE;
+            reversedDistances[i] = Integer.MAX_VALUE;
+        }
+        for (int i = 0; i < numBlueVs; i++) {
+            twoWayComponentBFS(i);
+        }
+    }
+
+    private List<Integer[]> twoWayComponentBFS(int blueIndex) {
+        List<Integer[]> res = new ArrayList<>();
+        componentBFS(blueIndex, false);
+        componentBFS(blueIndex, true);
+        return res;
+    }
+
+    private void componentBFS(int blueIndex, boolean reversed) {
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] open;
+        int[] distances;
+
+        if (reversed) {
+            distances = this.reversedDistances;
+            open = this.reversedOpen;
+        } else {
+            distances = this.distances;
+            open = this.open;
         }
 
-        int currentNode;
-        distances[start] = 0;
-        queue.add(start);
-        open[start] = true;
+        int currentNode = blueVs.get(blueIndex);
+        distances[currentNode] = 0;
+        queue.add(currentNode);
+        open[currentNode] = true;
         while (queue.peek() != null) {
             currentNode = queue.poll();
-            //total++;
-//            if (closed[currentNode])
-//                continue;
-//            closed[currentNode] = true;
-            bfsProcessNeighbors(currentNode, queue, distances, open);
-        }
-
-        for (int i = 0; i < numBlueVs; i++) {
-            blueDistances[blueIndex][i] = distances[blueVs.get(i)];
+            componentBfsProcessNeighbors(currentNode, queue, distances, open, reversed);
         }
 
     }
 
-    private void bfsProcessNeighbors(Integer parent, Queue<Integer> queue, int[] distances, boolean[] open) {
+    private void componentBfsProcessNeighbors(Integer parent, Queue<Integer> queue, int[] distances, boolean[] open, boolean reversed) {
         int newDistance;
-        for (Integer n : neighbors[parent]) {
-            if (!open[n]) {
-                newDistance = distances[parent] + 1;
-                //if (distances[n] > newDistance) {
-                    distances[n] = newDistance;
-                //}
-                open[n] = true;
-                if (!blueSet.contains(n)) {
-                    queue.add(n);
-                }
+        List<Integer> myNeighbors[];
 
+        if (reversed) {
+            myNeighbors = reversedNeighbors;
+        } else {
+            myNeighbors = neighbors;
+        }
+
+        for (Integer n : myNeighbors[parent]) {
+            if (!open[n] && low[n] == low[parent]) {
+                newDistance = distances[parent] + 1;
+                distances[n] = newDistance;
+                open[n] = true;
+                queue.add(n);
             }
         }
     }
 
+    private void calculateAllBlueDistances() {
+        for (int thisBlueId = 0; thisBlueId < components.size(); thisBlueId++) {
+            List<Integer> component = components.get(thisBlueId);
+            for (Integer node : component) {
+                for (Integer next : neighbors[node]) {
+                    if (low[next] != low[node]) {
+                        int nextBlueId = componentToBlue[low[next]];
+                        int newDistance = distances[node] + reversedDistances[next] + 1;
+
+                        if (blueDistances[thisBlueId][nextBlueId] == 0 || blueDistances[thisBlueId][nextBlueId] > newDistance) {
+                            blueDistances[thisBlueId][nextBlueId] = newDistance;
+                        }
+                    }
+                }
+            }
+        }
+    }
 //    private void bfs(int start, int blueIndex) {
 //        Queue<Integer> queue = new LinkedList<>();
 //        int[] distances = new int[numVertices];
