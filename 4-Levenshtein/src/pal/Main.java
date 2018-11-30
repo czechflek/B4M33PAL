@@ -32,18 +32,24 @@ public class Main {
             Word wordAlt = new WordAlt(shorter, maxDistance);
 
             Word.DistanceBounds bounds = Word.DistanceBounds.intersect(word.getBounds(), wordAlt.getBounds());
-            Generator generator = new Generator(alphabet, bounds.getLower(), bounds.getUpper(), maxDistance);
+            Generator generator = new Generator(alphabet, bounds.getLower(), bounds.getUpper(), maxDistance, longer);
             word.initCostStore(bounds.getUpper());
             wordAlt.initCostStore(bounds.getUpper());
 
-
-            boolean correct = word.isNearTarget() && wordAlt.isNearTarget();
-            while (!correct) {
-                generator.goNext();
-                correct = word.isNearTarget() && wordAlt.isNearTarget();
+            boolean correct= false;
+            boolean res = false;
+            List<String> results = new ArrayList<>();
+            while (!res || results.isEmpty()) { //will skip one possible word
+                res = generator.updateWord();
+                correct = wordAlt.isNearTarget();
+                if(correct){
+                    //System.out.println(new String(Generator.Text.arr));
+                    results.add(new String(Generator.Text.arr));
+                }
             }
+            Collections.sort(results);
             //System.out.println(word.cc);
-            System.out.println(generator.getResult());
+            System.out.println(results.get(0));
         } catch (IOException ex) {
             System.err.println("Whopsie");
         }

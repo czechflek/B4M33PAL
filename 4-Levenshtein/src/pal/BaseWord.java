@@ -20,14 +20,14 @@ abstract class BaseWord {
         for (int i = 0; i < maxLen; i++) cost[i][0] = i;
     }
 
-    void updateCost(int i, int j){
-        int match = (text[j - 1] == Generator.Text.arr[i]) ? 0 : 1;
+    void updateCost(int i, int j) {
+        int match = (text[j - 1] == Generator.Text.arr[i - 1]) ? 0 : 1;
 
-        int costSub = cost[i][j - 1] + match;
-        int costIns = cost[i][j] + 1;
-        int costDel = cost[i + 1][j - 1] + 1;
+        int costSub = cost[i - 1][j - 1] + match;
+        int costIns = cost[i - 1][j] + 1;
+        int costDel = cost[i][j - 1] + 1;
 
-        cost[i + 1][j] = Math.min(Math.min(costIns, costSub), costDel);
+        cost[i][j] = Math.min(Math.min(costIns, costSub), costDel);
     }
 
     DistanceBounds getBounds() {

@@ -6,15 +6,15 @@ class WordAlt extends Word{
     }
 
     boolean isNearTarget() {
-        int adjustedTargetLength = Generator.Text.length + 1;
+        int adjustedTargetLength = Generator.Text.arr.length + 1;
 
-        for (int i = 0; i < adjustedTargetLength; i++) {
+        for (int i = 1; i < adjustedTargetLength; i++) {
             for (int j = 1; j < adjustedLength; j++) {
                 updateCost(i, j);
             }
         }
-//        ///////////////////////////////////////////////////////
-//        if (cost[adjustedTargetLength - 1][adjustedLength - 1] <= maxDistance) {
+        ///////////////////////////////////////////////////////
+//        //if (cost[adjustedTargetLength - 1][adjustedLength - 1] <= maxDistance) {
 //            System.out.print("   ");
 //            for (int j = 0; j < text.length; j++) {
 //                System.out.print("|" + text[j]);
@@ -30,8 +30,8 @@ class WordAlt extends Word{
 //                }
 //                System.out.println();
 //            }
-//            System.out.println(new String(Generator.Text.arr).substring(0, Generator.Text.length) + ": " + cost[adjustedTargetLength][adjustedLength - 1]);
-//        }
+//            System.out.println(new String(Generator.Text.arr).substring(0, Generator.Text.length) + ": " + cost[adjustedTargetLength - 1][adjustedLength - 1]);
+//      //  }
 //        //////////////////////////////////////////////////////////
         return cost[adjustedTargetLength - 1][adjustedLength - 1] <= maxDistance;
     }

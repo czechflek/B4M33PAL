@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35a240f5-d38a-449e-b76e-dce6aa951333" name="Default Changelist" comment="Initial">
-      <change afterPath="$PROJECT_DIR$/src/pal/BaseWord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pal/WordAlt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/src/pal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/src/pal/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/src/pal/Pathfinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/src/pal/Pathfinder.java" afterDir="false" />
@@ -11,9 +9,10 @@
       <change beforePath="$PROJECT_DIR$/datapub/pub04.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub04.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datapub/pub05.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub05.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datapub/pub06.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub06.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pal/BaseWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/BaseWord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pal/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pal/Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/Word.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pal/WordAlt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/WordAlt.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,29 +23,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="34" column="107" selection-start-line="34" selection-start-column="107" selection-end-line="34" selection-end-column="107" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/pal/Generator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="553">
-              <caret line="72" column="5" lean-forward="true" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+            <state relative-caret-position="272">
+              <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pal/Word.java">
+        <entry file="file://$PROJECT_DIR$/src/pal/Generator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="368">
+              <caret line="74" column="18" selection-start-line="74" selection-start-column="18" selection-end-line="74" selection-end-column="18" />
+              <folding>
+                <element signature="method#initPointers#0;class#Generator#0" />
+                <element signature="e#3558#3559#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+            <state relative-caret-position="638">
+              <caret line="33" column="13" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -63,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+            <state relative-caret-position="396">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
@@ -92,10 +86,10 @@
       <list>
         <option value="$PROJECT_DIR$/src/pal/Genarator.java" />
         <option value="$PROJECT_DIR$/src/pal/BaseWord.java" />
-        <option value="$PROJECT_DIR$/src/pal/WordAlt.java" />
         <option value="$PROJECT_DIR$/src/pal/Word.java" />
-        <option value="$PROJECT_DIR$/src/pal/Main.java" />
+        <option value="$PROJECT_DIR$/src/pal/WordAlt.java" />
         <option value="$PROJECT_DIR$/src/pal/Generator.java" />
+        <option value="$PROJECT_DIR$/src/pal/Main.java" />
       </list>
     </option>
   </component>
@@ -197,7 +191,7 @@
       <workItem from="1543488432995" duration="428000" />
       <workItem from="1543488972876" duration="11546000" />
       <workItem from="1543507448532" duration="10547000" />
-      <workItem from="1543584363537" duration="532000" />
+      <workItem from="1543584363537" duration="12325000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <created>1543490553757</created>
@@ -206,11 +200,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543490553757</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Too slow">
+      <created>1543584964806</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1543584964806</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23053000" />
+    <option name="totallyTimeSpent" value="34846000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -225,8 +226,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32998884" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32998884" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39910814" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32998884" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39910814" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -254,32 +255,32 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
+    <MESSAGE value="Too slow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Too slow" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/pal/Generator.java</url>
-          <line>42</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="pos &lt; 2" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/pal/Generator.java</url>
-          <line>34</line>
-          <properties />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pal/Word.java</url>
           <line>19</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/pal/WordAlt.java</url>
+          <line>16</line>
+          <properties />
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="Generator.Text.length" language="JAVA" />
+        <watch expression="Generator.Text.length" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
@@ -298,38 +299,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.base/java/io/FileOutputStream.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+        <state relative-caret-position="203">
+          <caret line="330" column="24" selection-start-line="330" selection-start-column="24" selection-end-line="330" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
+    <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        <state relative-caret-position="638">
+          <caret line="33" column="13" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pal/Word.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="207">
+          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="34" column="107" selection-start-line="34" selection-start-column="107" selection-end-line="34" selection-end-column="107" />
+        <state relative-caret-position="396">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pal/Generator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="72" column="5" lean-forward="true" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+        <state relative-caret-position="368">
+          <caret line="74" column="18" selection-start-line="74" selection-start-column="18" selection-end-line="74" selection-end-column="18" />
+          <folding>
+            <element signature="method#initPointers#0;class#Generator#0" />
+            <element signature="e#3558#3559#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
         </state>
       </provider>
     </entry>
