@@ -1,10 +1,9 @@
 package pal;
 
-class Word extends BaseWord {
-    Word(String text, int maxDistance) {
+class WordAlt extends Word{
+    WordAlt(String text, int maxDistance) {
         super(text, maxDistance);
     }
-    //int cc = 0;
 
     boolean isNearTarget() {
         int adjustedTargetLength = Generator.Text.length + 1;
@@ -12,7 +11,6 @@ class Word extends BaseWord {
         for (int i = 0; i < adjustedTargetLength; i++) {
             for (int j = 1; j < adjustedLength; j++) {
                 updateCost(i, j);
-                //cc++;
             }
         }
 //        ///////////////////////////////////////////////////////
