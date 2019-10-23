@@ -53,8 +53,6 @@ public class Main {
                 }
             }
             System.out.println(total);
-
-
         } catch (IOException ex) {
             System.err.println("Whopsie");
         }

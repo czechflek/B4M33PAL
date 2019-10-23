@@ -38,9 +38,9 @@ public class Main {
             //Blue vertices
             line = in.readLine();
             tokens = line.split(" ");
-            List<Integer> blueVs = new ArrayList<>(numBlueVs);
+            int[] blueVs = new int[numBlueVs];
             for (int i = 0; i < numBlueVs; i++) {
-                blueVs.add(Integer.parseInt(tokens[i]));
+                blueVs[i] = Integer.parseInt(tokens[i]);
             }
 
             Pathfinder pathfinder = new Pathfinder(numVs, blueVs);

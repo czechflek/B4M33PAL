@@ -1,0 +1,30 @@
+Total time      CPU Time
+========================
+---------Quick----------
+609             395
+700             520
+430             332
+372             332
+--------Bucket 5k-------
+155             92
+84              45
+97              61
+116             61
+--------Bucket 1k-------
+68              45
+103             92
+184             154
+--------Bucket 10k------
+117             76
+111             107
+82              61
+------------------------
+Total edges = 55 000
+
+Results:
+    QuickSort (List.sort()):    395ms
+    Bucket sort (10k buckets):  81ms
+    Bucket sort (5k buckets):   65ms
+    Bucket sort (1k buckets):   97ms
+
+

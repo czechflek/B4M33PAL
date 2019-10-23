@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35a240f5-d38a-449e-b76e-dce6aa951333" name="Default Changelist" comment="Initial">
+      <change afterPath="$PROJECT_DIR$/../5-StringFactors/src/pal/Trie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/src/pal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/src/pal/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../2-Promenades/src/pal/Pathfinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../2-Promenades/src/pal/Pathfinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datapub/pub04.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub04.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datapub/pub05.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub05.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datapub/pub06.out" beforeDir="false" afterPath="$PROJECT_DIR$/datapub/pub06.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pal/BaseWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/BaseWord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pal/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pal/WordAlt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pal/WordAlt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../5-StringFactors/src/pal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../5-StringFactors/src/pal/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+            <state relative-caret-position="1097">
+              <caret line="54" column="9" lean-forward="true" selection-start-line="13" selection-start-column="8" selection-end-line="54" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -35,10 +30,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pal/Generator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
+            <state relative-caret-position="1610">
               <caret line="74" column="18" selection-start-line="74" selection-start-column="18" selection-end-line="74" selection-end-column="18" />
               <folding>
                 <element signature="method#initPointers#0;class#Generator#0" />
+                <element signature="e#3489#3490#0" expanded="true" />
                 <element signature="e#3558#3559#0" expanded="true" />
               </folding>
             </state>
@@ -48,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="638">
-              <caret line="33" column="13" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
+            <state relative-caret-position="713">
+              <caret line="33" column="13" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -57,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
+            <state relative-caret-position="529">
               <caret line="23" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
@@ -105,7 +101,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -128,6 +123,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -191,7 +187,8 @@
       <workItem from="1543488432995" duration="428000" />
       <workItem from="1543488972876" duration="11546000" />
       <workItem from="1543507448532" duration="10547000" />
-      <workItem from="1543584363537" duration="12325000" />
+      <workItem from="1543584363537" duration="12470000" />
+      <workItem from="1545057558258" duration="1452000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <created>1543490553757</created>
@@ -207,17 +204,24 @@
       <option name="project" value="LOCAL" />
       <updated>1543584964806</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Blazing fast">
+      <created>1543619727269</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1543619727269</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34846000" />
+    <option name="totallyTimeSpent" value="36443000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25799572" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2599364" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -226,7 +230,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32998884" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32998884" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32998884" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39910814" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -256,7 +260,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial" />
     <MESSAGE value="Too slow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Too slow" />
+    <MESSAGE value="Blazing fast" />
+    <option name="LAST_COMMIT_MESSAGE" value="Blazing fast" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -306,13 +311,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="33" column="13" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pal/Word.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -320,28 +318,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
+    <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="1097">
+          <caret line="54" column="9" lean-forward="true" selection-start-line="13" selection-start-column="8" selection-end-line="54" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pal/Generator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
+        <state relative-caret-position="1610">
           <caret line="74" column="18" selection-start-line="74" selection-start-column="18" selection-end-line="74" selection-end-column="18" />
           <folding>
             <element signature="method#initPointers#0;class#Generator#0" />
+            <element signature="e#3489#3490#0" expanded="true" />
             <element signature="e#3558#3559#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pal/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/pal/WordAlt.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+        <state relative-caret-position="713">
+          <caret line="33" column="13" selection-start-line="16" selection-start-column="9" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pal/BaseWord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>

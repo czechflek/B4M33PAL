@@ -5,19 +5,11 @@ import java.util.*;
 class Pathfinder {
     private int numVertices;
     private int numBlueVs;
-    private List<Integer> blueVs;
+    private int[] blueVs;
     private int[][] blueDistances;
-    private int[] maxDistanceToBlue;
     private int[] distances;
-    private int[] reversedDistances;
     private boolean[] open;
-    private boolean[] reversedOpen;
-    private List<PathPair> blueNeighbors[];
-    private List<PathPair> blueIncommingNeighbors[];
     private List<Integer> neighbors[];
-    private List<Integer> reversedNeighbors[];
-    private Set<Integer> blueSet = new HashSet<>();
-    //Queue<Integer> outsideNode = new LinkedList<>();
 
     //TARJAN
     private static final int UNVISITED = -1;
@@ -26,22 +18,34 @@ class Pathfinder {
     private int[] visited;
     private int[] low;
     private int id = 0;
-    private int sccTotal;
-    //    private  Map<Integer, Integer> componentToBlue;
     private int[] componentToBlue;
     private List<List<Integer>> components;
 
-    Pathfinder(int numVertices, List<Integer> blueVs) {
+    private int topoId = 0;
+    private int[] topoOrder;
+
+    private boolean[] componentClosed;
+    private boolean[] isBlue;
+    private int[] blueNodeDistance;
+    private int bestNodeDistance = 0;
+    private int bestDistance = Integer.MAX_VALUE;
+
+
+    Pathfinder(int numVertices, int[] blueVs) {
         this.numVertices = numVertices;
-        this.numBlueVs = blueVs.size();
+        this.numBlueVs = blueVs.length;
         this.blueVs = blueVs;
-        blueSet.addAll(blueVs);
+        componentClosed = new boolean[numBlueVs];
+        isBlue = new boolean[numVertices];
+        blueNodeDistance = new int[numBlueVs];
+
+        for (int i = 0; i < numBlueVs; i++) {
+            isBlue[blueVs[i]] = true;
+        }
 
         neighbors = new LinkedList[numVertices];
-        reversedNeighbors = new LinkedList[numVertices];
         for (int i = 0; i < neighbors.length; i++) {
             neighbors[i] = new LinkedList<>();
-            reversedNeighbors[i] = new LinkedList<>();
         }
 
         blueDistances = new int[numBlueVs][numBlueVs];
@@ -50,106 +54,32 @@ class Pathfinder {
 
     void addEdge(int from, int to) {
         neighbors[from].add(to);
-        reversedNeighbors[to].add(from);
-    }
-
-    Result daBaDeeDaBaDaa() {
-        blueNeighbors = new LinkedList[numBlueVs];
-        blueIncommingNeighbors = new LinkedList[numBlueVs];
-        int incoming[] = new int[numBlueVs];
-
-        for (int i = 0; i < numBlueVs; i++) {
-            blueIncommingNeighbors[i] = new LinkedList<>();
-        }
-
-        for (int i = 0; i < numBlueVs; i++) {
-            blueNeighbors[i] = new LinkedList<>();
-            for (int j = 0; j < numBlueVs; j++) {
-                Integer b = blueDistances[i][j];
-                if (!b.equals(Integer.MAX_VALUE) && !b.equals(0)) {
-                    incoming[j]++;
-                    blueNeighbors[i].add(new PathPair(j, blueDistances[i][j]));
-                    blueIncommingNeighbors[j].add(new PathPair(i, blueDistances[i][j]));
-                }
-            }
-        }
-        List<Integer> topoSort = topologicalSort(incoming);
-
-        return getBluestPath(topoSort);
-    }
-
-
-    private List<Integer> topologicalSort(int[] incoming) {
-        Queue<Integer> queue = new LinkedList<>();
-        List<Integer> result = new LinkedList<>();
-        for (int i = 0; i < numBlueVs; i++) {
-            if (incoming[i] == 0)
-                queue.add(i);
-        }
-
-        while (!queue.isEmpty()) {
-            Integer n = queue.poll();
-            result.add(n);
-            for (PathPair m : blueNeighbors[n]) {
-                incoming[m.node]--;
-                if (incoming[m.node] == 0)
-                    queue.add(m.node);
-            }
-        }
-        return result;
-    }
-
-    private Result getBluestPath(List<Integer> sorted) {
-        int[] distance = new int[numBlueVs];
-        int[] nodeDistance = new int[numBlueVs];
-        int bestNodeDistance = 0;
-        int bestDistance = Integer.MAX_VALUE;
-
-        for (int i = sorted.size() - 1; i >= 0; i--) {
-            int current = sorted.get(i);
-            for (PathPair n : blueIncommingNeighbors[current]) {
-                if (nodeDistance[n.node] < (nodeDistance[current] + 1)) {
-                    nodeDistance[n.node] = nodeDistance[current] + 1;
-                    distance[n.node] = distance[current] + n.distance;
-                    if (nodeDistance[n.node] > bestNodeDistance) {
-                        bestNodeDistance = nodeDistance[n.node];
-                        bestDistance = distance[n.node];
-                    } else if (nodeDistance[n.node] == bestNodeDistance) {
-                        if (distance[n.node] < bestDistance) {
-                            bestDistance = distance[n.node];
-                        }
-                    }
-                } else if (nodeDistance[n.node] == (nodeDistance[current] + 1)) {
-                    if (distance[n.node] > (distance[current] + n.distance)) {
-                        distance[n.node] = distance[current] + n.distance;
-                    }
-                    if (nodeDistance[n.node] > bestNodeDistance) {
-                        bestNodeDistance = nodeDistance[n.node];
-                        bestDistance = distance[n.node];
-                    } else if (nodeDistance[n.node] == bestNodeDistance) {
-                        if (distance[n.node] < bestDistance) {
-                            bestDistance = distance[n.node];
-                        }
-                    }
-                }
-            }
-        }
-
-        return new Result(bestNodeDistance + 1, bestDistance);
     }
 
     void findComponents() {
         tarjan();
         buildComponents();
-        getIntraComponentDistances();
-        calculateAllBlueDistances();
-        //printBlueDistances();
+        topoComponentsToBlue();
+        remapLowToBlue();
+    }
+
+    Result daBaDeeDaBaDaa() {
+        distances = new int[numVertices];
+        open = new boolean[numVertices];
+        for (int i = topoOrder.length - 1; i > 0; i--) {
+            int current = topoOrder[i];
+            componentBFS(current);
+
+        }
+
+        return new Result(bestNodeDistance + 1, bestDistance);
     }
 
     private void tarjan() {
         onStack = new boolean[numVertices];
         visited = new int[numVertices];
         low = new int[numVertices];
+        topoOrder = new int[numBlueVs];
 
         for (int i = 0; i < visited.length; i++) {
             visited[i] = UNVISITED;
@@ -188,7 +118,8 @@ class Pathfinder {
                     break;
                 }
             }
-            sccTotal++;
+            topoOrder[topoId] = low[node];
+            topoId++;
         }
 
 
@@ -206,7 +137,7 @@ class Pathfinder {
         componentToBlue = new int[id];
         int componentId;
         for (int i = 0; i < numBlueVs; i++) {
-            componentId = low[blueVs.get(i)];
+            componentId = low[blueVs[i]];
             componentToBlue[componentId] = i;
             components.add(new LinkedList<>());
         }
@@ -217,133 +148,86 @@ class Pathfinder {
         }
     }
 
-    private void getIntraComponentDistances() {
-        distances = new int[numVertices];
-        reversedDistances = new int[numVertices];
-        open = new boolean[numVertices];
-        reversedOpen = new boolean[numVertices];
-        maxDistanceToBlue = new int[numBlueVs];
-        for (int i = 0; i < distances.length; i++) {
-            distances[i] = Integer.MAX_VALUE;
-            reversedDistances[i] = Integer.MAX_VALUE;
-        }
-        for (int i = 0; i < numBlueVs; i++) {
-            twoWayComponentBFS(i);
-        }
-    }
-
-    private List<Integer[]> twoWayComponentBFS(int blueIndex) {
-        List<Integer[]> res = new ArrayList<>();
-        componentBFS(blueIndex, false);
-        componentBFS(blueIndex, true);
-        return res;
-    }
-
-    private void componentBFS(int blueIndex, boolean reversed) {
+    private void componentBFS(int blueIndex) {
         Queue<Integer> queue = new LinkedList<>();
-        boolean[] open;
-        int[] distances;
-
-        if (reversed) {
-            distances = this.reversedDistances;
-            open = this.reversedOpen;
-        } else {
-            distances = this.distances;
-            open = this.open;
-        }
-
-        int currentNode = blueVs.get(blueIndex);
-        distances[currentNode] = 0;
+        boolean[] openNodes = new boolean[numVertices];
+        List<Integer> adjacentComponents = new LinkedList<>();
+        int currentNode = blueVs[blueIndex];
         queue.add(currentNode);
         open[currentNode] = true;
         while (queue.peek() != null) {
             currentNode = queue.poll();
-            componentBfsProcessNeighbors(currentNode, queue, distances, open, reversed);
+            componentBfsProcessNeighbors(currentNode, queue, distances, openNodes, blueIndex, adjacentComponents);
         }
+        for(Integer i: adjacentComponents){
+            componentClosed[i] = false;
+        }
+        componentClosed[blueIndex] = true;
 
     }
 
-    private void componentBfsProcessNeighbors(Integer parent, Queue<Integer> queue, int[] distances, boolean[] open, boolean reversed) {
+    private void componentBfsProcessNeighbors(Integer parent, Queue<Integer> queue, int[] distances, boolean[] open, int startingBlueIndex, List<Integer> adjacentComponents) {
         int newDistance;
-        List<Integer> myNeighbors[];
 
-        if (reversed) {
-            myNeighbors = reversedNeighbors;
-        } else {
-            myNeighbors = neighbors;
-        }
+        for (Integer n : neighbors[parent]) {
+            if (!open[n]) {
+                if(!componentClosed[low[n]]) {
+                    if(low[n] != low[parent] && low[parent] != startingBlueIndex){
+                        adjacentComponents.add(low[n]);
+                        componentClosed[low[n]] = true;
+                    } else {
+                        newDistance = distances[parent] + 1;
 
-        for (Integer n : myNeighbors[parent]) {
-            if (!open[n] && low[n] == low[parent]) {
-                newDistance = distances[parent] + 1;
-                distances[n] = newDistance;
-                open[n] = true;
-                queue.add(n);
-            }
-        }
-    }
-
-    private void calculateAllBlueDistances() {
-        for (int thisBlueId = 0; thisBlueId < components.size(); thisBlueId++) {
-            List<Integer> component = components.get(thisBlueId);
-            for (Integer node : component) {
-                for (Integer next : neighbors[node]) {
-                    if (low[next] != low[node]) {
-                        int nextBlueId = componentToBlue[low[next]];
-                        int newDistance = distances[node] + reversedDistances[next] + 1;
-
-                        if (blueDistances[thisBlueId][nextBlueId] == 0 || blueDistances[thisBlueId][nextBlueId] > newDistance) {
-                            blueDistances[thisBlueId][nextBlueId] = newDistance;
+                        open[n] = true;
+                        if (isBlue[n] && low[n] != startingBlueIndex) {
+                            int blueIndex = low[n];
+                            adjacentComponents.add(blueIndex);
+                            componentClosed[blueIndex] = true;
+                            if (blueNodeDistance[blueIndex] == 0 || blueNodeDistance[blueIndex] < (blueNodeDistance[startingBlueIndex] + 1)) {
+                                distances[n] = newDistance;
+                                blueNodeDistance[blueIndex] = blueNodeDistance[startingBlueIndex] + 1;
+                                if (bestNodeDistance < blueNodeDistance[blueIndex]) {
+                                    bestNodeDistance = blueNodeDistance[blueIndex];
+                                    bestDistance = distances[n];
+                                } else if (bestNodeDistance == blueNodeDistance[blueIndex]) {
+                                    if (bestDistance > distances[n]) {
+                                        bestDistance = distances[n];
+                                    }
+                                }
+                            } else if (blueNodeDistance[blueIndex] == (blueNodeDistance[startingBlueIndex] + 1)) {
+                                if (newDistance < distances[n]) {
+                                    distances[n] = newDistance;
+                                    if (bestNodeDistance < blueNodeDistance[blueIndex]) {
+                                        bestNodeDistance = blueNodeDistance[blueIndex];
+                                        bestDistance = distances[n];
+                                    } else if (bestNodeDistance == blueNodeDistance[blueIndex]) {
+                                        if (bestDistance > distances[n]) {
+                                            bestDistance = distances[n];
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            distances[n] = newDistance;
+                            queue.add(n);
                         }
                     }
                 }
             }
         }
     }
-//    private void bfs(int start, int blueIndex) {
-//        Queue<Integer> queue = new LinkedList<>();
-//        int[] distances = new int[numVertices];
-//        boolean[] closed = new boolean[numVertices];
-//        boolean[] open = new boolean[numVertices];
-//        for (int i = 0; i < distances.length; i++) {
-//            distances[i] = Integer.MAX_VALUE;
-//        }
-//
-//        int currentNode;
-//        distances[start] = 0;
-//        queue.add(start);
-//        while (queue.peek() != null) {
-//            currentNode = queue.poll();
-//            if (closed[currentNode])
-//                continue;
-//            closed[currentNode] = true;
-//            bfsProcessNeighbors(currentNode, queue, distances, closed, open);
-//        }
-//
-//        for (int i = 0; i < numBlueVs; i++) {
-//            blueDistances[blueIndex][i] = distances[blueVs.get(i)];
-//        }
-//
-//    }
-//
-//    private void bfsProcessNeighbors(Integer parent, Queue<Integer> queue, int[] distances, boolean[] closed, boolean[] open) {
-//        int newDistance;
-//        for (Integer n : neighbors[parent]) {
-//            if (!closed[n]) {
-//                newDistance = distances[parent] + 1;
-//                if (distances[n] > newDistance) {
-//                    distances[n] = newDistance;
-//                }
-//                if (!blueSet.contains(n) && !open[n]) {
-//                    open[n] = true;
-//                    queue.add(n);
-//                } else {
-//                    closed[n] = true;
-//                }
-//
-//            }
-//        }
-//    }
+
+    private void topoComponentsToBlue() {
+        for (int i = 0; i < topoOrder.length; i++) {
+            topoOrder[i] = componentToBlue[topoOrder[i]];
+        }
+    }
+
+    private void remapLowToBlue() {
+        for (int i = 0; i < low.length; i++) {
+            low[i] = componentToBlue[low[i]];
+        }
+    }
 
     private void printBlueDistances() {
         System.out.println("Blue distances:");
@@ -354,16 +238,6 @@ class Pathfinder {
                 row += blueDistances[i][j] + " ";
             }
             System.out.println(row);
-        }
-    }
-
-    private class PathPair {
-        Integer node;
-        Integer distance;
-
-        PathPair(Integer node, Integer distance) {
-            this.node = node;
-            this.distance = distance;
         }
     }
 
